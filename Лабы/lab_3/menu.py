@@ -1,10 +1,10 @@
-from lab_python_fp.task_1 import task_1
-from lab_python_fp.task_2 import task_2
-from lab_python_fp.task_3 import task_3
-from lab_python_fp.task_4 import task_4
-from lab_python_fp.task_5 import task_5
-from lab_python_fp.task_6 import task_6
-from lab_python_fp.task_7 import task_7
+from lab_3.lab_python_fp.field import task_1
+from lab_3.lab_python_fp.gen_random import task_2
+from lab_3.lab_python_fp.unique import task_3
+from lab_3.lab_python_fp.sort import task_4
+from lab_3.lab_python_fp.print_result import task_5
+from lab_3.lab_python_fp.cm_timer import task_6
+from lab_3.lab_python_fp.process_data import task_7
 
 def run_menu():
     MENU = """

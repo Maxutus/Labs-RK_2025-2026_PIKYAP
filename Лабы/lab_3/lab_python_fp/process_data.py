@@ -1,9 +1,9 @@
 import json
 import os
-from .task_5 import print_result
-from .task_6 import cm_timer_1
-from .task_2 import gen_random
-from .task_3 import Unique
+from .print_result import print_result
+from .cm_timer import cm_timer_1
+from .gen_random import gen_random
+from .unique import Unique
 
 _JOB_KEYS = ('name', 'job-name', 'job', 'profession', 'title')
 

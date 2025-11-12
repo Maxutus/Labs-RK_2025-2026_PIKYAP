@@ -14,11 +14,17 @@ def add_digit(digit):
 
 def add_operation(operation):
     value = calc.get()
-    if value[-1] in '-+/*':
+
+    if value == '0' and operation == '-':
+        calc['state'] = tk.NORMAL
+        calc.delete(0, tk.END)
+        calc.insert(0, '-')
+        calc['state'] = tk.DISABLED
+        return
+
+    if value[-1] in '+-*/':
         value = value[:-1]
-    elif '+' in value or '-' in value or '*' in value or '/' in value:
-        calculate()
-        value = calc.get()
+
     calc['state'] = tk.NORMAL
     calc.delete(0, tk.END)
     calc.insert(0, value + operation)
@@ -27,17 +33,35 @@ def add_operation(operation):
 
 def calculate():
     calc['state'] = tk.NORMAL
-    value = calc.get()
-    if value[-1] in '+-*/':
-        value = value + value[:-1]
-    calc.delete(0, tk.END)
+    value = calc.get().strip()
+
+    if value and value[-1] in '+-*/':
+        value = value[:-1]
+
     try:
-        calc.insert(0, eval(value))
-    except (NameError, SyntaxError):
-        messagebox.showinfo('Внимание', 'нужно только цифры!!! Вы ввели другие символы!!!')
-        calc.insert(0, 0)
+        result = eval(value)
+
+        if isinstance(result, float) and result.is_integer():
+            result = int(result)
+
+        calc.delete(0, tk.END)
+        calc.insert(0, str(result))
+
     except ZeroDivisionError:
         messagebox.showinfo('Внимание', 'На ноль делить нельзя!!! пора бы это уже выучить...')
+        calc.delete(0, tk.END)
+        calc.insert(0, 0)
+
+    except (NameError, SyntaxError):
+        messagebox.showinfo('Внимание', 'нужно только цифры!!! Вы ввели другие символы!!!')
+        calc.delete(0, tk.END)
+        calc.insert(0, 0)
+
+    except Exception as e:
+        messagebox.showinfo('Ошибка', f'Что-то пошло не так: {e}')
+        calc.delete(0, tk.END)
+        calc.insert(0, 0)
+
     calc['state'] = tk.DISABLED
 
 
@@ -65,15 +89,52 @@ def make_clear_button(operation):
 
 
 def press_key(event):
-    print(repr(event.char))
-    if event.char.isdigit():
-        add_digit(event.char)
-    elif event.char in '+-/*':
-        add_operation(event.char)
-    elif event.char == '\r':
+    ch = event.char or ''
+    ks = event.keysym or ''
+
+    if ks in ('Return', 'KP_Enter'):
         calculate()
-    elif event.char == '\x1b':
+        return "break"
+
+    if ks == 'Escape':
         clear()
+        return "break"
+
+    if ks in ('Delete', 'BackSpace'):
+        value = calc.get()
+        calc['state'] = tk.NORMAL
+        if len(value) <= 1:
+            calc.delete(0, tk.END)
+            calc.insert(0, '0')
+        else:
+            calc.delete(0, tk.END)
+            calc.insert(0, value[:-1])
+        calc['state'] = tk.DISABLED
+        return "break"
+
+    if ch.isdigit():
+        add_digit(ch)
+        return "break"
+
+    if ch in '+-*/':
+        add_operation(ch)
+        return "break"
+
+    if ks in ('KP_Add', 'KP_Subtract', 'KP_Multiply', 'KP_Divide'):
+        mapping = {
+            'KP_Add': '+',
+            'KP_Subtract': '-',
+            'KP_Multiply': '*',
+            'KP_Divide': '/',
+        }
+        add_operation(mapping[ks])
+        return "break"
+
+    if ch == '=':
+        calculate()
+        return "break"
+
+    return
 
 
 win = tk.Tk()
@@ -81,7 +142,7 @@ win.geometry = (f'240*270+100+200')
 win['bg'] = '#33ffe1'
 win.title('Калькулятор')
 
-win.bind('<Key>', press_key)
+win.bind_all('<Key>', press_key)
 
 calc = tk.Entry(win, justify=tk.RIGHT, font=('Ariel', 15))
 calc.insert(0, '0')
