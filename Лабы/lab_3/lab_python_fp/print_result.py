@@ -1,4 +1,3 @@
-# lab_python_fp/task_5.py
 from functools import wraps
 
 def print_result(func):
@@ -6,7 +5,7 @@ def print_result(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
-        print(func.__name__)  # имя функции
+        print(func.__name__)
         if isinstance(result, list):
             for item in result:
                 print(item)
