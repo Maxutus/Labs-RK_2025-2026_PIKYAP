@@ -37,8 +37,8 @@ def task_3():
     print("Результат:", list(Unique(numbers)))
 
     words = ["a", "A", "b", "B", "a", "b"]
-    print("\nСтроки (чувствительно к регистру):", words)
+    print("\nСтроки (без учёта регистра):", words)
     print("Результат:", list(Unique(words)))
 
-    print("\nСтроки (ignore_case=True):", words)
+    print("\nСтроки (с учётом регистра):", words)
     print("Результат:", list(Unique(words, ignore_case=True)))

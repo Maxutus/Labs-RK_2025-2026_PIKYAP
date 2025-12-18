@@ -39,15 +39,18 @@ def f4(professions):
 def task_7():
     print("Задача 7: обработка данных (f1 → f2 → f3 → f4)\n")
 
-    path = input("Путь к data_light.json (Enter — использовать пример): ").strip()
+    path = input("Запустить (Enter): ").strip()
     if not path:
         path = os.path.join(os.path.dirname(__file__), "data_light.json")
 
     try:
-        with open(path, encoding="utf-8") as f:
+        with open(path, "r", encoding="utf-8-sig") as f:
             data = json.load(f)
     except FileNotFoundError:
-        print("Файл не найден.")
+        print("Файл не найден")
+        return
+    except json.JSONDecodeError as e:
+        print("Ошибка декодирования JSON:", e)
         return
 
     with cm_timer_1():

@@ -29,6 +29,6 @@ def task_6():
     with cm_timer_1():
         sleep(5)
 
-    print("\nДемонстрация cm_timer_2 (ожидание 10 с):")
+    print("\nДемонстрация cm_timer_2 (ожидание 5 с):")
     with cm_timer_2():
-        sleep(10)
+        sleep(5)

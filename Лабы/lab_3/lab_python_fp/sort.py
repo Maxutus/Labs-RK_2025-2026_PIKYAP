@@ -6,4 +6,4 @@ def task_4():
     print("Сортировка без lambda:", result)
 
     result_with_lambda = sorted(data, key=lambda x: abs(x), reverse=True)
-    print("Сортировка с lambda     :", result_with_lambda)
+    print("Сортировка с lambda:", result_with_lambda)
