@@ -1,1 +1,1 @@
-# Labs-RK_2025-2026_PIKYAP
+# Labs-RK-Project_2025-2026_PIKYAP
